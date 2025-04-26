@@ -1,4 +1,3 @@
-// pages/api/random-image.js
 export default function handler(req, res) {
   const images = [
     "/images/image1.jpg",
@@ -18,5 +17,8 @@ export default function handler(req, res) {
   const host = req.headers.host;
   const protocol = host.includes("localhost") ? "http" : "https";
 
-  res.redirect(`${protocol}://${host}${selectedImage}`);
+  // 加一个随机参数，防止缓存
+  const cacheBuster = Math.random().toString(36).substring(2, 8);
+
+  res.redirect(`${protocol}://${host}${selectedImage}?v=${cacheBuster}`);
 }
